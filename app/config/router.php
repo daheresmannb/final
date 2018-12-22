@@ -2,6 +2,13 @@
 
 $router = $di->getRouter();
 
-// Define your routes here
+
+$router->add(
+    '/login',
+    [
+        'controller' => 'Login',
+        'action'     => 'Login',
+    ]
+);
 
 $router->handle();

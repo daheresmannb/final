@@ -31,7 +31,7 @@ class AlumnosController extends ControllerBase
         if (!is_array($parameters)) {
             $parameters = [];
         }
-        $parameters["order"] = "codalu";
+        $parameters["order"] = "id";
 
         $alumnos = Alumnos::find($parameters);
         if (count($alumnos) == 0) {
@@ -65,13 +65,13 @@ class AlumnosController extends ControllerBase
     /**
      * Edits a alumno
      *
-     * @param string $codalu
+     * @param string $id
      */
-    public function editAction($codalu)
+    public function editAction($id)
     {
         if (!$this->request->isPost()) {
 
-            $alumno = Alumnos::findFirstBycodalu($codalu);
+            $alumno = Alumnos::findFirstByid($id);
             if (!$alumno) {
                 $this->flash->error("alumno was not found");
 
@@ -83,11 +83,14 @@ class AlumnosController extends ControllerBase
                 return;
             }
 
-            $this->view->codalu = $alumno->codalu;
+            $this->view->id = $alumno->id;
 
-            $this->tag->setDefault("codalu", $alumno->codalu);
-            $this->tag->setDefault("nomalu", $alumno->nomalu);
-            $this->tag->setDefault("caralu", $alumno->caralu);
+            $this->tag->setDefault("id", $alumno->id);
+            $this->tag->setDefault("nombre", $alumno->nombre);
+            $this->tag->setDefault("apellido", $alumno->apellido);
+            $this->tag->setDefault("correo", $alumno->correo);
+            $this->tag->setDefault("telefono", $alumno->telefono);
+            $this->tag->setDefault("direccion", $alumno->direccion);
             
         }
     }
@@ -107,9 +110,11 @@ class AlumnosController extends ControllerBase
         }
 
         $alumno = new Alumnos();
-        $alumno->codalu = $this->request->getPost("codalu");
-        $alumno->nomalu = $this->request->getPost("nomalu");
-        $alumno->caralu = $this->request->getPost("caralu");
+        $alumno->nombre = $this->request->getPost("nombre");
+        $alumno->apellido = $this->request->getPost("apellido");
+        $alumno->correo = $this->request->getPost("correo");
+        $alumno->telefono = $this->request->getPost("telefono");
+        $alumno->direccion = $this->request->getPost("direccion");
         
 
         if (!$alumno->save()) {
@@ -149,11 +154,11 @@ class AlumnosController extends ControllerBase
             return;
         }
 
-        $codalu = $this->request->getPost("codalu");
-        $alumno = Alumnos::findFirstBycodalu($codalu);
+        $id = $this->request->getPost("id");
+        $alumno = Alumnos::findFirstByid($id);
 
         if (!$alumno) {
-            $this->flash->error("alumno does not exist " . $codalu);
+            $this->flash->error("alumno does not exist " . $id);
 
             $this->dispatcher->forward([
                 'controller' => "alumnos",
@@ -163,9 +168,11 @@ class AlumnosController extends ControllerBase
             return;
         }
 
-        $alumno->codalu = $this->request->getPost("codalu");
-        $alumno->nomalu = $this->request->getPost("nomalu");
-        $alumno->caralu = $this->request->getPost("caralu");
+        $alumno->nombre = $this->request->getPost("nombre");
+        $alumno->apellido = $this->request->getPost("apellido");
+        $alumno->correo = $this->request->getPost("correo");
+        $alumno->telefono = $this->request->getPost("telefono");
+        $alumno->direccion = $this->request->getPost("direccion");
         
 
         if (!$alumno->save()) {
@@ -177,7 +184,7 @@ class AlumnosController extends ControllerBase
             $this->dispatcher->forward([
                 'controller' => "alumnos",
                 'action' => 'edit',
-                'params' => [$alumno->codalu]
+                'params' => [$alumno->id]
             ]);
 
             return;
@@ -194,11 +201,11 @@ class AlumnosController extends ControllerBase
     /**
      * Deletes a alumno
      *
-     * @param string $codalu
+     * @param string $id
      */
-    public function deleteAction($codalu)
+    public function deleteAction($id)
     {
-        $alumno = Alumnos::findFirstBycodalu($codalu);
+        $alumno = Alumnos::findFirstByid($id);
         if (!$alumno) {
             $this->flash->error("alumno was not found");
 

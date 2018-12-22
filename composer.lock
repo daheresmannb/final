@@ -1,0 +1,66 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a107fb1beaeaaa241113c1ebc0ba91cd",
+    "packages": [
+        {
+            "name": "michele-angioni/phalcon-auth",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/micheleangioni/phalcon-auth.git",
+                "reference": "cec6d5673f2513d29c1b3a64bc5227136f3d1221"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/micheleangioni/phalcon-auth/zipball/cec6d5673f2513d29c1b3a64bc5227136f3d1221",
+                "reference": "cec6d5673f2513d29c1b3a64bc5227136f3d1221",
+                "shasum": ""
+            },
+            "require": {
+                "ext-phalcon": ">=2.0.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "league/factory-muffin": "^3.0",
+                "league/factory-muffin-faker": "^1.0",
+                "phalcon/incubator": "dev-master",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicheleAngioni\\PhalconAuth\\": "src/PhalconAuth"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Angioni",
+                    "email": "michele.angioni@gmail.com"
+                }
+            ],
+            "description": "A library which provide you with simple authentication.",
+            "keywords": [
+                "phalcon",
+                "repo",
+                "repositories"
+            ],
+            "time": "2016-05-08T20:41:47+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

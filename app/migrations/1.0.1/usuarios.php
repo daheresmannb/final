@@ -6,9 +6,9 @@ use Phalcon\Db\Reference;
 use Phalcon\Mvc\Model\Migration;
 
 /**
- * Class UsuariosMigration_105
+ * Class UsuariosMigration_101
  */
-class UsuariosMigration_105 extends Migration {
+class UsuariosMigration_101 extends Migration {
 
     public function up() {
         $this->morphTable('usuarios', [
@@ -16,7 +16,8 @@ class UsuariosMigration_105 extends Migration {
                     new Column(
                         'id',[
                             'type' => Column::TYPE_INTEGER,
-                            'notNull' => true,
+                            'unsigned'      => true,
+                            'notNull'       => true,
                             'autoIncrement' => true,
                             'size' => 11,
                             'first' => true
@@ -50,7 +51,7 @@ class UsuariosMigration_105 extends Migration {
                         'password',[
                             'type' => Column::TYPE_VARCHAR,
                             'notNull' => true,
-                            'size' => 35,
+                            'size' => 100,
                             'after' => 'correo'
                         ]
                     ),
@@ -58,26 +59,14 @@ class UsuariosMigration_105 extends Migration {
                         'rol_id',[
                             'type' => Column::TYPE_INTEGER,
                             'notNull' => true,
-                            'autoIncrement' => true,
                             'size' => 11,
                             'first' => true
                         ]
                     )
                 ],
                 'indexes' => [
-                    new Index('PRIMARY', ['id', 'correo'], 'PRIMARY'),
-                    new Index('roles_ibfk_1', ['rol_id'], null)
-                ],
-                'references' => [
-                    new Reference(
-                        'roles_ibfk_1',
-                        [
-                            'referencedSchema'  => 'final',
-                            'referencedTable'   => 'roles',
-                            'columns'           => ['rol_id'],
-                            'referencedColumns' => ['id'],
-                        ]
-                    ),
+                    new Index('PRIMARY', ['id'], 'PRIMARY'),
+                    new Index('correo', ['correo'], 'UNIQUE')
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
@@ -94,5 +83,8 @@ class UsuariosMigration_105 extends Migration {
      * @return void
      */
     public function down() {
+        $this->getConnection()->dropTable(
+            'usuarios'
+        );
     }
 }

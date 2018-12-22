@@ -6,18 +6,17 @@ use Phalcon\Db\Reference;
 use Phalcon\Mvc\Model\Migration;
 
 /**
- * Class RolesMigration_105
+ * Class RolesMigration_101
  */
-class RolesMigration_105 extends Migration {
-
+class RolesMigration_101 extends Migration {
     public function up() {
+ 
         $this->morphTable('roles', [
                 'columns' => [
                     new Column(
                         'id',[
                             'type' => Column::TYPE_INTEGER,
                             'notNull' => true,
-                            'autoIncrement' => true,
                             'size' => 11,
                             'first' => true
                         ]
@@ -41,6 +40,14 @@ class RolesMigration_105 extends Migration {
                 ],
             ]
         );
+
+        $this->getConnection()->insert(
+            'roles',
+            [
+                1,
+                "Admin",
+            ]
+        );
     }
 
     /**
@@ -49,5 +56,9 @@ class RolesMigration_105 extends Migration {
      * @return void
      */
     public function down() {
+        
+        $this->getConnection()->dropTable(
+            'roles'
+        );
     }
 }

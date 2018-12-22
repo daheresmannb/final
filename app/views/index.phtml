@@ -6,12 +6,46 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Trabajo Final Empresariales</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/>
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('/img/favicon.ico')?>"/>
+        <link rel="stylesheet" href="<?php echo $this->url->get('/css/estilo.css')?>">
+        <script src="<?php echo $this->url->get('/js/jquery.js')?>"></script>
+        <script type="text/javascript">
+            function Login(url) {
+                dict_data = {
+                    usuario: document.getElementById("inputEmail").value,
+                    contraseña: document.getElementById("inputPassword").value
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url:  "http://"+ "<?php echo $_SERVER['SERVER_NAME']; ?>" + ":8000" + url,
+                    headers: {  'Access-Control-Allow-Origin': '*' },
+                    data: dict_data,
+                    success: function(data) {
+                        alert("holaaaa");
+                        console.log(data);
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+                        alert(xhr);
+                        console.log(xhr);
+                        console.log(thrownError +"error "+ textStatus);
+                    }
+                });
+            }
+
+            $(document).ready(
+                function() {
+                    $("#iniciar").click(
+                        function() {
+                            Login("<?php echo $this->url->get('/login')?>");
+                        }
+                    );
+                }
+            );
+        </script>
     </head>
     <body>
-        <div class="container">
-          fjhgjg  <?php echo $this->getContent(); ?>
-        </div>
+        <?php echo $this->getContent(); ?>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->

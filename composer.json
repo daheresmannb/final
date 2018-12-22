@@ -1,0 +1,5 @@
+{
+    "require": {
+        "michele-angioni/phalcon-auth": "^0.1.0"
+    }
+}
