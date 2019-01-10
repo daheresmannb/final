@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    $sesion = $this->getDI()->getShared("session"); 
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,50 +9,65 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Trabajo Final Empresariales</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('/img/favicon.ico')?>"/>
-        <link rel="stylesheet" href="<?php echo $this->url->get('/css/estilo.css')?>">
-        <script src="<?php echo $this->url->get('/js/jquery.js')?>"></script>
+        <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico"/>
+        <script src="/js/jquery.js"></script>
+        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="/css/simple-sidebar.css" rel="stylesheet" type="text/css">
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript">
-            function Login(url) {
-                dict_data = {
-                    usuario: document.getElementById("inputEmail").value,
-                    contraseña: document.getElementById("inputPassword").value
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url:  "http://"+ "<?php echo $_SERVER['SERVER_NAME']; ?>" + ":8000" + url,
-                    headers: {  'Access-Control-Allow-Origin': '*' },
-                    data: dict_data,
-                    success: function(data) {
-                        alert("holaaaa");
-                        console.log(data);
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        alert(xhr);
-                        console.log(xhr);
-                        console.log(thrownError +"error "+ textStatus);
+            var datos;
+            var getUrl = window.location;
+            var url_base = getUrl.protocol + "//" + getUrl.host;
+            console.log("uno: " + window.location + " dos: " + url_base + "/");
+        </script>
+        <script type="text/javascript" src="js/func.js"> </script>
+        <script type="text/javascript">
+            if (typeof(localStorage) !== "undefined") {
+                if(localStorage.getItem("sesion_token") === null) {
+                    if ((getUrl + "").localeCompare(url_base + "/") == 0) {
+                        window.location.replace(url_base + "/login-v");
                     }
-                });
+                } else {
+                    if ((getUrl + "").localeCompare(url_base + "/") == 0) {
+                        window.location.replace(url_base + "/home");
+                    }
+                }
+            } else {
+                console.log(localStorage.getItem("Sorry, your browser does not support Web Storage..."));
             }
-
+            
             $(document).ready(
                 function() {
                     $("#iniciar").click(
                         function() {
-                            Login("<?php echo $this->url->get('/login')?>");
+                            Login(url_base + "/login");
                         }
                     );
                 }
             );
         </script>
     </head>
-    <body>
+        <!-- Modal -->
+        <div class="modal fade" id="info_modal_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="titulomodal"></h6>
+                    </div>
+                    <div id="textmodal" class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php echo $this->getContent(); ?>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </body>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>    
+</body>
 </html>

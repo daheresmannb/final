@@ -1,19 +1,21 @@
+<link rel="stylesheet" type="text/css" href="/css/estilo.css">
+<script type="text/javascript">
+    //console.log(localStorage.getItem("sesion_token"));
+</script>
 <div class="container">
     <div class="login-form">
         <div class="main-div">
             <div class="panel">
                 <h2>Trabajo Final empresariales</h2>
-                <p>Ingresa tu mail y password</p>
             </div>
-            <form id="Login">
-                <div class="form-group">
-                    <input type="email" class="form-control" name="usuario" id="inputEmail" placeholder="Email Address">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="contraseña" id="inputPassword" placeholder="Password">
-                </div>
-                <button type="submit" id="iniciar" class="btn btn-primary">Iniciar</button>
-            </form>
+            <div class="form-group">
+                <input required type="email" class="form-control" name="usuario" id="inputEmail" placeholder="Tu correo">
+            </div>
+            <div class="form-group">
+                <input required type="password" class="form-control" name="contraseña" id="inputPassword" placeholder="Tu Password">
+            </div>
+            <input type='hidden' name='<?php echo $this->security->getTokenKey() ?>' value='<?php echo $this->security->getToken() ?>'/>
+            <button type="submit" id="iniciar" class="btn btn-primary">Iniciar</button>
         </div>
     </div>
 </div>

@@ -1,0 +1,110 @@
+<script>
+    var datos;
+    function tareas(op) {
+        switch(op) {
+            case 2:
+                $('#contenido').load('/alumnos/registrar/v');
+            break;
+
+            case 4:
+                $('#contenido').load('/alumnos/eliminar/v');
+            break;
+        }
+    }
+
+    function al(op) {
+        switch(op) {
+            case 2:
+                var dict_data = {
+                    nombre: document.getElementById("fieldNombre").value,
+                    apellido: document.getElementById("fieldApellido").value,
+                    correo: document.getElementById("fieldCorreo").value,
+                    telefono: document.getElementById("fieldTelefono").value,
+                    direccion: document.getElementById("fieldDireccion").value
+                };
+                var url = "/alumnos/crear";
+            break;
+            case 3:
+                var dict_data = {};
+                var url = "";
+            break;
+            case 4:
+                var dict_data = {
+                    alumno_id: document.getElementById("alumno_id").value,
+                };
+                var url = "/alumnos/eliminar";
+            break;
+            default:
+                var dict_data = {
+                };
+                var url = "/alumnos/obtener";
+            break;
+        }
+
+        Peticiones(
+            dict_data, 
+            "titulo", 
+            url,
+            0
+        );   
+    }
+
+    $(document).ready(
+        function(e) {
+            $('#sidebar-nav').on(
+                'click',
+                'li',
+                function(e) {
+                    e.preventDefault();
+                    $('#sidebar-nav li.active').removeClass('active');
+                    $(this).addClass('active');
+                }
+            );
+
+            $("#1").click(
+                function (e) {
+                    e.preventDefault();
+                    $('#contenido').load('/alumnos');
+                    $('#botones').load('/botones-alumnos');
+                }
+            );
+
+            $("#btn_reg_alu").click(
+                function() {
+                    al(2);
+                }
+            );
+        }
+    );
+</script>
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li>
+                <a href="#"><img style="width: 150px;" src="/css/logo1.png"></a>
+            </li>
+            <li>
+                <a id="1" href="#">Alumnos</a>
+            </li>
+        </ul>
+    </div>
+    <!-- contenedor -->
+    <div id="page-content-wrapper">
+        <span href="#menu-toggle" class="btn btn-secondary" id="menu-toggle" style="font-size:30px;cursor:pointer">&#9776;</span>
+        <div id="botones"></div>
+        <div id="contenido" class="container-fluid"> 
+            <h2>Tarea Final: DESARROLLO DE APLICACIONES EMPRESARIALES</h2>   
+        </div>
+    </div>
+</div>
+<!-- despliega sidebar -->
+<script>
+    $("#menu-toggle").click(
+        function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        }
+    );
+</script>
+
+
