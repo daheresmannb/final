@@ -15,6 +15,8 @@ class AlumnosController extends ControllerBase {
 
     public function createAction() {
         $response = new \Phalcon\Http\Response();
+        $response->setHeader("Access-Control-Allow-Origin", "*");    
+        $response->sendHeaders();
 
         if (!empty($_POST['nombre']) && !empty($_POST['apellido']) && !empty($_POST['correo']) && !empty($_POST['telefono']) && !empty($_POST['direccion'])) {
             $alumno = new Alumnos();
@@ -26,14 +28,13 @@ class AlumnosController extends ControllerBase {
             $alumno->save();
 
             $respuesta['exito']     = true;
-            $respuesta['respuesta'] = $alumno;
+            $respuesta['respuesta'] = "Registro creado satisfactoriamente";
+            $respuesta["op"]        = 1;
         } else {
             $respuesta['exito']     = false;
             $respuesta['respuesta'] = "Datos requeridos";
+            $respuesta["op"]        = 1;
         }
-        
-        $response->setHeader("Access-Control-Allow-Origin", "*");    
-        $response->sendHeaders();
         return $response->setContent(
             json_encode(
                 $respuesta
@@ -43,39 +44,29 @@ class AlumnosController extends ControllerBase {
 
     public function readAction() {
         $response = new \Phalcon\Http\Response();
+        $response->setHeader("Access-Control-Allow-Origin", "*");    
+        $response->sendHeaders();
 
         if (!empty($_POST['alumno_id'])) {
-            $numberPage = 1;
-            if ($this->request->isPost()) {
-                $query = Criteria::fromInput(
-                    $this->di, 
-                    'Alumnos', 
-                    $_POST
-                );
-                $this->persistent->parameters = $query->getParams();
+            $alumno = Alumnos::findFirst([
+                'conditions' => 'id = '.$_POST['alumno_id'],
+                'order'      => 'id DESC',
+            ]);
+
+            if (!empty($alumno)) {
+                $respuesta['exito']     = true;
+                $respuesta['respuesta'] = $alumno;
+                $respuesta["op"]        = 0;
             } else {
-                $numberPage = $this->request->getQuery("page", "int");
+                $respuesta['exito']     = false;
+                $respuesta['respuesta'] = "El registro no se encuentra";
+                $respuesta["op"]        = 1;
             }
-
-            $parameters = $this->persistent->parameters;
-            if (!is_array($parameters)) {
-                $parameters = [];
-            }
-            $parameters["order"] = "id";
-
-            $alumnos = Alumnos::find($parameters);
-
-            $respuesta['exito']     = true;
-            $respuesta['respuesta'] = $alumnos;
-            $respuesta["op"] = 2;
         } else {
             $respuesta['exito']     = true;
             $respuesta['respuesta'] = Alumnos::find();
-            $respuesta['op']        = 2;
+            $respuesta['op']        = 0;
         }
-        
-        $response->setHeader("Access-Control-Allow-Origin", "*");    
-        $response->sendHeaders();
         return $response->setContent(
             json_encode(
                 $respuesta
@@ -83,48 +74,71 @@ class AlumnosController extends ControllerBase {
         );
     }
 
+    public function updateAction() {
+        $response = new \Phalcon\Http\Response();
+        $response->setHeader("Access-Control-Allow-Origin", "*");    
+        $response->sendHeaders();
+        if (!empty($_POST['alumno_id'])) {
+            $alumno = Alumnos::findFirstById($_POST['alumno_id']);
+
+            if (!empty($alumno)) {
+                $alumno->nombre    = $this->request->getPost("nombre");
+                $alumno->apellido  = $this->request->getPost("apellido");
+                $alumno->correo    = $this->request->getPost("correo");
+                $alumno->telefono  = $this->request->getPost("telefono");
+                $alumno->direccion = $this->request->getPost("direccion");
+                $alumno->update();
+
+                $respuesta['exito']     = true;
+                $respuesta['respuesta'] = "Registro actualizado correctamente";
+                $respuesta["op"]        = 1;
+            } else {
+                $respuesta['exito']     = false;
+                $respuesta['respuesta'] = "El registro no se encuentra";
+                $respuesta["op"]        = 1;
+            }    
+        } else {
+            $respuesta['exito']     = false;
+            $respuesta['respuesta'] = "Datos requeridos";
+            $respuesta['op']        = 1;
+        }
+        return $response->setContent(
+            json_encode(
+                $respuesta
+            )
+        );
+    }
 
     public function deleteAction() {
         $response = new \Phalcon\Http\Response();
-
-        if (!empty($_POST['alumno_id'])) {
-            $numberPage = 1;
-            if ($this->request->isPost()) {
-                $query = Criteria::fromInput(
-                    $this->di, 
-                    'Alumnos', 
-                    $_POST
-                );
-                $this->persistent->parameters = $query->getParams();
-            } else {
-                $numberPage = $this->request->getQuery("page", "int");
-            }
-
-            $parameters = $this->persistent->parameters;
-            if (!is_array($parameters)) {
-                $parameters = [];
-            }
-            $parameters["order"] = "id";
-
-            $alumnos = Alumnos::find($parameters);
-            $alumnos->delete();
-
-            $respuesta['exito']     = true;
-            $respuesta['respuesta'] = "Registro eliminado correctamente";
-            $respuesta["op"] = 4;
-        } else {
-            $respuesta['exito']     = true;
-            $respuesta['respuesta'] = "Datos requeridos";
-            $respuesta['op']        = 4;
-        }
-        
         $response->setHeader("Access-Control-Allow-Origin", "*");    
         $response->sendHeaders();
+        if (!empty($_POST['alumno_id'])) {
+            $alumno = Alumnos::findFirst([
+                'conditions' => 'id = '.$_POST['alumno_id'],
+                'order'      => 'id DESC',
+            ]);
+
+            if (!empty($alumno)) {
+                $alumno->delete();
+
+                $respuesta['exito']     = true;
+                $respuesta['respuesta'] = "Registro eliminado correctamente";
+                $respuesta["op"]        = 1;
+            } else {
+                $respuesta['exito']     = false;
+                $respuesta['respuesta'] = "El registro no se encuentra";
+                $respuesta["op"]        = 1;
+            }
+        } else {
+            $respuesta['exito']     = false;
+            $respuesta['respuesta'] = "Datos requeridos";
+            $respuesta['op']        = 1;
+        }
         return $response->setContent(
             json_encode(
                 $respuesta
             )
         );
     }
-
 }

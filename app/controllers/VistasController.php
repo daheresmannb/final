@@ -20,5 +20,9 @@ class VistasController extends ControllerBase {
     public function eliminarAction() {
     	return $this->view->pick('alumnos/eliminar');   
     }
+
+    public function actualizarAction() {
+    	return $this->view->pick('alumnos/actualizar');   
+    }
     
 }

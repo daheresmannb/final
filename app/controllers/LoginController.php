@@ -8,7 +8,6 @@ class LoginController extends ControllerBase {
     }
 
     public function LoginAction() {
-        //$this->view->disable();
         $response = new \Phalcon\Http\Response();
         $response->setHeader("Access-Control-Allow-Origin", "*");    
         $response->sendHeaders();
@@ -25,8 +24,7 @@ class LoginController extends ControllerBase {
                 if ($this->security->checkHash($_POST['contraseña'], $usuario[0]->password)) {
                     $respuesta['exito']     = true;
                     $respuesta['token']     = $this->security->getTokenKey();
-                    
-                    $this->view->postId = $postId;
+                    $respuesta['op']        = -1;
                     $sesion->set("us_id", $usuario->id);
                     $sesion->set("us_nombre", $usuario->nombre);
                     $sesion->set("us_apellido", $usuario->apellido);        
@@ -34,17 +32,18 @@ class LoginController extends ControllerBase {
                     $this->security->hash(rand());
                     $respuesta['exito']     = false;
                     $respuesta['respuesta'] = "Contraseña incorrecta";
+                    $respuesta['op']        = 1;
                 }
             } else {
                 $respuesta['exito']     = false;
                 $respuesta['respuesta'] = "Usuario no encontrado";
+                $respuesta['op']        = 1;
             } 
         } else {
             $respuesta['exito']     = false;
-            $respuesta['respuesta'] = "Metodo no admitido"; 
+            $respuesta['respuesta'] = "Metodo no admitido";
+            $respuesta['op']        = 1; 
         }
-        $respuesta['op'] = -1;
-
         return $response->setContent(
             json_encode(
                 $respuesta

@@ -7,11 +7,23 @@
 <div id="cont">
 <div class="page-header">
     <h3>
-        Registrar alumnos
+        Actualizar alumnos
     </h3>
 </div>
 
 <?php echo $this->getContent(); ?>
+
+<div class="form-group">
+    <label for="fieldNombre" class="col-sm-2 control-label">id</label>
+    <div class="col-sm-10">
+        <?php echo $this->tag->textField([
+            "alumno id", 
+            "size"  => 30, 
+            "class" => "form-control", 
+            "id"    => "alumno_id"
+        ]) ?>
+    </div>
+</div>
 
 <div class="form-group">
     <label for="fieldNombre" class="col-sm-2 control-label">Nombre</label>
@@ -76,7 +88,7 @@
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button onclick="al(2)" id="btn_reg_alu" class="btn btn-default">Registrar</button>
+        <button onclick="al(3)" id="btn_reg_alu" class="btn btn-default">Actualizar</button>
     </div>
 </div>
 

@@ -6,6 +6,10 @@
                 $('#contenido').load('/alumnos/registrar/v');
             break;
 
+            case 3:
+                $('#contenido').load('/alumnos/actualizar/v');
+            break;
+
             case 4:
                 $('#contenido').load('/alumnos/eliminar/v');
             break;
@@ -13,37 +17,49 @@
     }
 
     function al(op) {
+        var titulo;
         switch(op) {
             case 2:
                 var dict_data = {
-                    nombre: document.getElementById("fieldNombre").value,
-                    apellido: document.getElementById("fieldApellido").value,
-                    correo: document.getElementById("fieldCorreo").value,
-                    telefono: document.getElementById("fieldTelefono").value,
+                    nombre:    document.getElementById("fieldNombre").value,
+                    apellido:  document.getElementById("fieldApellido").value,
+                    correo:    document.getElementById("fieldCorreo").value,
+                    telefono:  document.getElementById("fieldTelefono").value,
                     direccion: document.getElementById("fieldDireccion").value
                 };
                 var url = "/alumnos/crear";
+                titulo = "registrar";
             break;
             case 3:
-                var dict_data = {};
-                var url = "";
+                var dict_data = {
+                    alumno_id: document.getElementById("alumno_id").value,
+                    nombre:    document.getElementById("fieldNombre").value,
+                    apellido:  document.getElementById("fieldApellido").value,
+                    correo:    document.getElementById("fieldCorreo").value,
+                    telefono:  document.getElementById("fieldTelefono").value,
+                    direccion: document.getElementById("fieldDireccion").value
+                };
+                var url = "/alumnos/actualizar";
+                titulo = "Actualizar";
             break;
             case 4:
                 var dict_data = {
-                    alumno_id: document.getElementById("alumno_id").value,
+                    alumno_id: document.getElementById("alumno_id").value
                 };
                 var url = "/alumnos/eliminar";
+                titulo = "Eliminar";
             break;
             default:
                 var dict_data = {
                 };
                 var url = "/alumnos/obtener";
+                titulo = "Obtener";
             break;
         }
 
         Peticiones(
             dict_data, 
-            "titulo", 
+            titulo, 
             url,
             0
         );   
@@ -69,6 +85,14 @@
                 }
             );
 
+            $("#2").click(
+                function (e) {
+                    localStorage.setItem("sesion_token", null);
+                    localStorage.removeItem("sesion_token");
+                    window.location.replace(url_base);
+                }
+            );
+
             $("#btn_reg_alu").click(
                 function() {
                     al(2);
@@ -85,6 +109,9 @@
             </li>
             <li>
                 <a id="1" href="#">Alumnos</a>
+            </li>
+            <li>
+                <a id="2" href="#">Cerrar Sesion</a>
             </li>
         </ul>
     </div>
@@ -106,5 +133,3 @@
         }
     );
 </script>
-
-

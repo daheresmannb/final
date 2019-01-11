@@ -15,7 +15,7 @@
                 <input required type="password" class="form-control" name="contraseña" id="inputPassword" placeholder="Tu Password">
             </div>
             <input type='hidden' name='<?php echo $this->security->getTokenKey() ?>' value='<?php echo $this->security->getToken() ?>'/>
-            <button type="submit" id="iniciar" class="btn btn-primary">Iniciar</button>
+            <button onclick="Login(url_base + '/login')" class="btn btn-primary">Iniciar</button>
         </div>
     </div>
 </div>

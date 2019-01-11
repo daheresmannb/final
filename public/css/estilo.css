@@ -91,3 +91,8 @@ html {
 .panel {
   background-color: transparent;
 }
+
+
+#cont {
+    width: 500px;
+}

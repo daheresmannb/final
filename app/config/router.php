@@ -56,6 +56,14 @@ $router->add(
 );
 
 $router->add(
+    '/alumnos/actualizar/v',
+    [
+        'controller' => "Vistas",
+        'action'     => 'actualizar'
+    ]
+);
+
+$router->add(
     '/alumnos/eliminar/v',
     [
         'controller' => "Vistas",
@@ -86,7 +94,7 @@ $router->add(
     '/alumnos/actualizar',
     [
         'controller' => 'Alumnos',
-        'action'     => 'Login',
+        'action'     => 'update',
     ]
 );
 

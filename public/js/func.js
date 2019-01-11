@@ -20,30 +20,22 @@ function Peticiones(dict_data, titulo, url, flag) {
             console.log(data);
             datos = data;
 
-            if (flag != 0 && datos.exito != true) {
-                InfoModal(
-                    titulo, 
-                    data.respuesta
-                );
-            }
-
-            if (datos.exito == true && datos.op == -1) {
-                
+            if (data.exito == true && data.op == -1) {
                 localStorage.setItem("sesion_token", datos.token);
-
-                if (typeof(localStorage) !== "undefined") {
-                    if(localStorage.getItem("sesion_token") != null) {
-                        window.location.replace(url_base + "/home");
-                        localStorage.setItem("flag", true);
-                    }
-                } else {
-                    console.log(localStorage.getItem("Sorry, your browser does not support Web Storage..."));
+                if(localStorage.getItem("sesion_token") != null) {
+                    window.location.replace(url_base + "/home");
+                    localStorage.setItem("flag", true);
                 }
             }
 
-            if (datos.op == 2) {
+            if (data.op == 1) {
+                InfoModal(
+                    titulo,
+                    data.respuesta
+                );
+            } else if(data.op == 0) {
                 $("#tab-alu").empty();
-                for (var i = datos.respuesta.length - 1; i >= 0; i--) {
+                for (var i = data.respuesta.length - 1; i >= 0; i--) {
                     $("#tab-alu").append(
                         "<tr><th scope='row'>"+datos.respuesta[i].id+
                         "</th><td>"+datos.respuesta[i].nombre+
@@ -53,7 +45,7 @@ function Peticiones(dict_data, titulo, url, flag) {
                         "</td><td>"+datos.respuesta[i].direccion+
                         "</td></tr>"
                     );
-              }
+                }
             }
         },
         error: function(xhr, textStatus, thrownError) {
@@ -65,7 +57,7 @@ function Peticiones(dict_data, titulo, url, flag) {
 
 function Login(url) {
     dict_data = {
-        usuario: document.getElementById("inputEmail").value,
+        usuario:    document.getElementById("inputEmail").value,
         contraseña: document.getElementById("inputPassword").value
     };
 
@@ -76,30 +68,3 @@ function Login(url) {
         0
     );
 }
-
-function AlumnosCrear() {
-    dict_data = {
-        nombre:    document.getElementById("nombre").value,
-        apellido:  document.getElementById("apellido").value,
-        correo:    document.getElementById("correo").value,
-        telefono:  document.getElementById("telefono").value,
-        direccion: document.getElementById("direccion").value
-    };
-
-    Peticiones(
-        dict_data,
-        "Registro de alumnos",
-        "alumnos/crear",
-        1
-    );
-}
-
-$(document).ready(
-    function() {
-        $("#iniciar").click(
-            function() {
-                Login("<?php echo $this->url->get('/login')?>");
-            }
-        );
-    }
-);
